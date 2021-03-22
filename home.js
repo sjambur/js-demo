@@ -106,3 +106,29 @@ button.addEventListener('click', function() {
     button.textContent = 'SEE REVIEW';
   }
 });
+
+const values = ['a', 'b', 'c'];
+
+console.log(values);
+console.log(Array.isArray(values));
+console.log(values[0]); //a
+console.log(values[3]); //undefined
+
+values.push('d', 'e', 'f');
+console.log(values);
+
+const last = values.pop();
+console.log(values, last);
+
+const first = values.shift();
+console.log(values, first);
+
+values.unshift('hello');
+console.log(values);
+
+const newValues = values.slice(1, 4);
+console.log(newValues);
+console.log(values);
+
+values.splice(2, 1);
+console.log(values);
