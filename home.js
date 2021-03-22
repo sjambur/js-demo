@@ -158,3 +158,18 @@ const containers =
 console.log(containers);
 
 containers[2].classList.add('d-none');
+
+const app = {
+  productId : 12345,
+  userName : 'Joe',
+  orderNumber : 789
+};
+
+function showProductId(){
+  let productId = 67890;
+  console.log(productId);
+}
+
+console.log(productId);
+
+showProductId();
