@@ -20,3 +20,7 @@ let getSecretCode = function (value) {
   console.log("in getSecretCode: ", key);
   return code;
 };
+
+function changePercentOff(percentage) {
+  document.getElementById('percent-off').textContent = percentage + '% OFF';
+}
