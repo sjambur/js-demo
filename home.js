@@ -130,5 +130,31 @@ const newValues = values.slice(1, 4);
 console.log(newValues);
 console.log(values);
 
-values.splice(2, 1);
+values.splice(2, 1, 'hello');
 console.log(values);
+
+console.log(values.indexOf('hello'));
+console.log(values.indexOf('v')); //-1
+
+const set = values.filter(function(item){
+  return item > 'b';
+});
+
+console.log(set);
+
+const found = values.find(function(item) {
+  return item.length > 1;
+});
+
+console.log(found);
+
+values.forEach(function(item){
+  console.log(item);
+});
+
+const containers = 
+  document.getElementsByClassName('container');
+
+console.log(containers);
+
+containers[2].classList.add('d-none');
