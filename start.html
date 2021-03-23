@@ -14,8 +14,32 @@
         <button onclick="breakSample()">break</button>
         <button onclick="continueSample()">continue</button>
         <button onclick="labelSample()">label</button>
+        <button onclick="truthFalseSample()">Truthy Falsy</button>
+        <button onclick="constructorSample()">Constructor Sample</button>
+        <button onclick="helperFunctionSample()">Helper Function Sample</button>
+        <button onclick="instanceofSample()">instanceofSample</button>
+        <button onclick="functionScopeSample()">function Scope Sample</button>
+        <button onclick="this.style.background='Red'">In event handler</button>
+        <button onclick="eventHandler(this)">Pass to function from event handler</button>
+        <button onclick="objectLiteral()">object Literal Sample</button>
+        <button onclick="callAndApply()">call and apply Sample</button>
+        <button onclick="constructorFunction()">constructor this sample</button>
+        <button onclick="stringToArray()">spread string to array Sample</button>
+        <button onclick="copyArray()">spread copy array Sample</button>
+        <button onclick="copyObjectArray()">spread copy object array Sample</button>
+        <button onclick="concatenateArray()">spread concatenate array Sample</button>
+        <button onclick="spreadInConstructors()">spread constructor Sample</button>
+        <button onclick="spreadForFunctionArgs()">spread function args Sample</button>
+        <button onclick="objectLiterals()">spread copy literal objects Sample</button>
         <script>
             'use strict';
+
+            // Global scope - 'this' is mapped to global/window object
+            console.log("Begin: global scope sample");
+            console.log(this.toString());
+            console.log("this === window = " + (this === window).toString());
+            console.log("End: global scope sample");
+
             function simpleSwitch(){
                 let productId = 2;
 
@@ -137,6 +161,25 @@
                 }
             ]
 
+            let _newProducts = [
+                {
+                "productID": 700,
+                "name": "Nikon D90",
+                "productNumber": "ND90",
+                "color": "Black",
+                "standardCost": 1200,
+                "listPrice": 1399.99
+                },
+                {
+                "productID": 710,
+                "name": "Nikon D850",
+                "productNumber": "ND850",
+                "color": "Grey",
+                "standardCost": 2100,
+                "listPrice": 2299.99
+                }
+            ]
+
             function forofSample(){
                 for (const item of _products) {
                     console.log(JSON.stringify(item))
@@ -180,6 +223,279 @@
                     }
                     console.log(index);
                 }
+            }
+
+            function truthFalseSample(){
+                let price = 200;
+                let color = "Red";
+                let result;
+
+                console.log("Check for 'true' values");
+                // Evaluate the expression
+                result = price > 10;
+                console.log(result);
+
+                // Test the expression
+                if(price > 10){
+                    console.log("Price is > 10");
+                }
+
+                // Check if price has something other than zero
+                if(price){
+                    console.log("Price is > 0");
+                }
+
+                // Check if color has characters in it
+                if(color){
+                    console.log("Color has a value");
+                }
+
+                // Set value to null, it becomes false
+                color = null;
+                console.log("color == null = " + Boolean(color));
+
+                // Set value to empty string, it becomes false
+                color = "";
+                console.log("color == '' = " + Boolean(color));
+
+                // Set value to undefined, it becomes false
+                color = undefined;
+                console.log("color == undefined = " + Boolean(color));
+
+                // Declare variable and don't initialize, it is false
+                let value;
+                console.log("'let value' = " + Boolean(value));
+            }
+
+            function constructorSample(){
+                let product = _products[0];
+                let introDate = new Date();
+                let strValue = new String();
+                let isActive = false;
+
+                console.log("_products = " + _products.constructor.toString());
+                console.log("product = " + product.constructor.toString());
+                console.log("product.productID = " + product.productID.constructor.toString());
+                console.log("product.productNumber = " + product.productNumber.constructor.toString());
+                console.log("introDate = " + introDate.constructor.toString());
+                console.log("strValue = " + strValue.constructor.toString());
+                console.log("isActive = " + isActive.constructor.toString());
+                console.log("constructorSample() = " + constructorSample.constructor.toString());
+            }
+
+            function helperFunctionSample(){
+                let introDate = new Date();
+                let result;
+                let value = null;
+
+                // Use helper functions that return true/false
+                console.log("_products is Array? = " + isArray(_products));
+                console.log("introDate is Date? = " + isDate(introDate));
+
+                // Be sure to check if something is null prior to using
+                console.log("result = " + isNullOrUndefined(result) ? 'null/undefined' : 'not null/undefined');
+                console.log("value = " + isNullOrUndefined(value) ? 'null/undefined' : 'not null/undefined');
+            }
+
+            function isArray(value){
+                return value.constructor.toString().indexOf("Array") > -1;
+            }
+
+            function isDate(value){
+                return value.constructor.toString().indexOf("Date") > -1;
+            }
+
+            function isNullOrUndefined(value) {
+                return value === null || value === undefined;
+            }
+
+            function instanceofSample(){
+                let prod = new Product(680, "HL Road Frame - Black, 58", "FR-R92B-58");
+                let dt = new Date();
+                let name = new String("Product Name");
+                let value = "A simple string";
+
+                console.log("prod instanceof Product = " + (prod instanceof Product).toString());
+                console.log("prod instanceof Object = " + (prod instanceof Object).toString());
+                console.log("dt instanceof Date = " + (dt instanceof Date).toString());
+                console.log("dt instanceof Object = " + (dt instanceof Object).toString());
+                console.log("name instanceof String = " + (name instanceof Product).toString());
+                console.log("value instanceof String = " + (value instanceof String).toString());
+                console.log("value instanceof Object = " + (value instanceof Object).toString());
+            }
+
+            function Product(id, name, number){
+                this.productID = id;
+                this.name = name;
+                this.productNumber = number;
+                this.color = "Black";
+                this.standardCost = 10;
+                this.listPrice = 30;
+            }
+
+            function Product2(id, name, cost, price){
+                this.productID = id;
+                this.name = name;
+                this.standardCost = cost;
+                this.listPrice = price;
+
+                this.grossProfit = function(){
+                    return(this.listPrice - this.standardCost).toLocaleString('en-US', {
+                            style: 'currency', currency: 'USD'
+                        });
+                }
+            }
+
+            //Function scope - 'this' is mapped to global/window object
+            // Uncomment 'use strict' above to show how it affects this function
+            function functionScopeSample() {
+                console.log(this.toString());
+                console.log("this === window = " + (this === window).toString());
+            }
+
+            // Pass 'this' to function from event handler
+            function eventHandler(ctl){
+                console.log(ctl.toString());
+            }
+
+            function objectLiteral(){
+                let product = {
+                    "productID": 680,
+                    "name": "HL Road Frame - Black, 58",
+                    "standardCost": 1059.31,
+                    "listPrice": 1431.50,
+                    grossProfit: function() {
+                        return (this.listPrice - this.standardCost)
+                        .toLocaleString('en-US', {
+                            style: 'currency', currency: 'USD'
+                        });
+                    }
+                };
+                console.log(product.grossProfit());
+            }
+
+            function callAndApply(){
+                let product = {
+                    "productID": 680,
+                    "name": "HL Road Frame - Black, 58",
+                    "standardCost": 1059.31,
+                    "listPrice": 1431.50,
+                    grossProfit: function() {
+                        return (this.listPrice - this.standardCost)
+                        .toLocaleString('en-US', {
+                            style: 'currency', currency: 'USD'
+                        });
+                    }
+                };
+
+                let prod2 = {
+                    "standardCost" : 500,
+                    "listPrice" : 850
+                }
+
+                // Call using reference to 'product' properties
+                console.log(product.grossProfit.call(product));
+                // Call using reference to 'prod2' properties
+                console.log(product.grossProfit.call(prod2));
+                console.log("");
+                console.log(product.grossProfit.apply(product));
+                console.log(product.grossProfit.apply(prod2));
+
+            }
+
+            function constructorFunction(){
+                let prod1 = new Product2(680, "HL Road Frame - Black, 58"
+                    , 1059.31, 1431.50);
+                let prod2 = new Product2(707, "Sport-100 Helmet, Red"
+                    , 13.08, 34.99)
+                
+                console.log(prod1.grossProfit());
+                console.log(prod2.grossProfit());
+            }
+
+            function stringToArray(){
+                let productNumber = "FR-R92B-58";
+                let values = [...productNumber]
+                console.log(values);
+            }
+
+            function copyArray(){
+                let arr=[1,2,3];
+                let arr2=[...arr];
+
+                arr2.push(4);
+                arr2[0] = 99;
+
+                console.log(arr);
+                console.log(arr2);
+            }
+
+            function copyObjectArray(){
+                // careful with object arrays
+                // The array is copied, but the underlying objects are still accessed
+                let diff = [..._products];
+
+                // Modify a property of the new array
+                diff[0].productID = 999;
+
+                console.log(_products[0].productID);
+                console.log(diff[0].productID);
+            }
+
+            function concatenateArray(){
+                let allProducts = _products.concat(_newProducts);
+                console.log(allProducts.length);
+
+                let spProducts = [..._products, ..._newProducts];
+                console.log(spProducts.length);
+            }
+
+            function spreadInConstructors(){
+                let dt = new Date(2019, 10, 15); 
+                console.log(dt);
+
+                let dateFields = [2019, 11, 15];
+                dt = new Date(...dateFields);
+                console.log(dt);
+            }
+
+            function spreadForFunctionArgs(){
+                multipleParms(1,2,3);
+
+                let args=[1,2,3];
+                multipleParms(...args);
+            }
+
+            function multipleParms(arg1, arg2, arg3){
+                console.log(arg1);
+                console.log(arg2);
+                console.log(arg3);
+                console.log("");
+            }
+
+            function objectLiterals(){
+                let product = {
+                    productID: 680,
+                    name: "HL Road Frame - Black, 58",
+                    standardCost: 1059.31,
+                    listPrice: 1431.50
+                }
+
+                // The following performs a shallow-copy
+                // Similar to Object.assign()
+                let prod2 = {...product};
+
+                // Change the newly copied objects
+                prod2.productID = 999;
+
+                // Display the objects
+                console.log(product);
+                console.log(prod2);
+
+                // Display the changed value
+                console.log("");
+                console.log(product.productID);
+                console.log(prod2.productID);
             }
         </script>
     </body>
